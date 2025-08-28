@@ -7,7 +7,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
-import blueWaveBackground from "../assets/blue_wave_background.png";
+import blueWaveBackground from "../assets/auth.jpg";
 
 const OTPVerification = ({ onLogin }) => {
   const [otp, setOtp] = useState("");
@@ -103,7 +103,7 @@ const OTPVerification = ({ onLogin }) => {
   return (
     <div className="min-h-screen flex">
       {/* Left side - Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-white">
+      <div className="w-full md:basis-[40%] flex items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md">
           <Card className="border-0 shadow-none">
             <CardHeader className="text-center pb-6">
@@ -176,15 +176,18 @@ const OTPVerification = ({ onLogin }) => {
       </div>
 
       {/* Right side - Background Image */}
-      <div className="flex-1 relative overflow-hidden">
+      <div className="hidden md:block md:basis-[60%] relative overflow-hidden m-4 rounded-2xl">
         <img
           src={blueWaveBackground}
           alt="Blue wave background"
           className="absolute inset-0 w-full h-full object-cover"
         />
+        {/* Black Overlay */}
+  <div className="absolute inset-0 bg-black/20"></div>
       </div>
-    </div>
+      </div>
   );
 };
 
 export default OTPVerification;
+

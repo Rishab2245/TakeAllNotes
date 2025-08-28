@@ -6,7 +6,8 @@ A modern, responsive note-taking application built with React (JavaScript) front
 
 - **User Authentication**
   - Email and OTP-based signup/login
-  - Google OAuth integration (ready for configuration)
+  - OTP Resend functionality
+  - **Google OAuth integration (fully implemented)**
   - JWT-based authorization
   - Input validation and error handling
 
@@ -30,6 +31,7 @@ A modern, responsive note-taking application built with React (JavaScript) front
 - **React Router** for navigation
 - **Axios** for API calls
 - **Lucide React** for icons
+- **@react-oauth/google** for Google OAuth
 
 ### Backend
 - **Node.js** with **Express.js**
@@ -76,6 +78,7 @@ note-taking-app/
 │       │   ├── assets/              # Static assets (images, etc.)
 │       │   └── App.jsx              # Main App component with routing
 │       ├── public/                  # Public assets
+│       ├── .env                     # Frontend environment variables
 │       └── package.json             # Node.js dependencies
 └── README.md                        # This file
 ```
@@ -133,7 +136,13 @@ The backend will run on `http://localhost:5001`
    pnpm install
    ```
 
-3. Start the development server:
+3. Create a `.env` file in the `frontend/note-taking-frontend` directory and add your Google Client ID:
+   ```
+   VITE_GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+   ```
+   **Important:** Replace `your-google-client-id.apps.googleusercontent.com` with the actual client ID you obtain from Google Cloud Console.
+
+4. Start the development server:
    ```bash
    pnpm run dev --host
    ```
@@ -158,6 +167,7 @@ The frontend will run on `http://localhost:5173` (or next available port)
 - `POST /api/auth/login` - User login
 - `POST /api/auth/google` - Google OAuth login
 - `GET /api/auth/me` - Get current user info
+- `POST /api/auth/resend-otp` - Resend OTP
 
 ### Notes
 - `GET /api/notes/` - Get user=\'s notes
@@ -176,16 +186,17 @@ The frontend will run on `http://localhost:5173` (or next available port)
 - `JWT_SECRET` - Secret key for JWT tokens
 - `JWT_EXPIRE` - JWT token expiration time
 - `MONGODB_URI` - MongoDB connection string
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
+- `GOOGLE_CLIENT_ID` - Google OAuth client ID (for backend)
 - `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASS` - Email server details for OTP
+- `VITE_GOOGLE_CLIENT_ID` - Google OAuth client ID (for frontend)
 
 ### Google OAuth Setup
-1. Create a project in Google Cloud Console.
-2. Enable Google People API.
-3. Create OAuth 2.0 Client IDs (Web application type).
-4. Add `http://localhost:5173` (or your frontend URL) to Authorized JavaScript origins.
-5. Add `http://localhost:5001` (or your backend URL) to Authorized redirect URIs.
-6. Update the `GOOGLE_CLIENT_ID` in your `.env` file.
+1. Create a project in Google Cloud Console: [https://console.cloud.google.com/](https://console.cloud.google.com/).
+2. Enable Google People API (if needed for user profile data).
+3. Create OAuth 2.0 Client IDs (Web application type) under "APIs & Services" > "Credentials."
+4. Add `http://localhost:5173` (or your deployed frontend URL) to **Authorized JavaScript origins**.
+5. Add `http://localhost:5001` (or your deployed backend URL) to **Authorized redirect URIs**.
+6. Update the `GOOGLE_CLIENT_ID` in your backend `.env` file and `VITE_GOOGLE_CLIENT_ID` in your frontend `.env` file with the client ID obtained from Google.
 
 ## Features Implemented
 
@@ -197,9 +208,10 @@ The frontend will run on `http://localhost:5173` (or next available port)
 ✅ Create and delete notes functionality  
 ✅ Mobile-friendly responsive design  
 ✅ Design matching Figma specifications  
-✅ Google OAuth integration (ready for configuration)  
+✅ **Google OAuth integration (fully implemented)**  
 ✅ Modern UI with smooth transitions  
 ✅ Error handling and user feedback  
+✅ OTP Resend functionality
 
 ## Design Implementation
 
@@ -222,10 +234,7 @@ The frontend closely replicates the provided Figma design with:
 
 - The app includes fallback support for MongoDB - it will work even without a MongoDB connection if the `MONGODB_URI` is not correctly set or the database is unavailable.
 - OTP functionality now sends actual emails (requires email service configuration in `.env`).
-- Google OAuth is implemented but requires proper client ID configuration.
 - All API routes are protected with JWT authentication.
 - Frontend uses modern React patterns with hooks and functional components.
 
-## Author
 
-Developed as a full-stack assignment demonstrating modern web development practices with React, Express.js/Node.js, and MongoDB.
