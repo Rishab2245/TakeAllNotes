@@ -10,6 +10,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../config";
 import blueWaveBackground from "../assets/auth.jpg";
 import { GoogleLogin } from "@react-oauth/google";
+import { useEffect } from "react";
 
 const SignIn = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,21 @@ const SignIn = ({ onLogin }) => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [width, setWidth] = useState(300);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 400) {
+        setWidth(window.innerWidth - 40); // small screen → full width with padding
+      } else {
+        setWidth(350); // default for larger screens
+      }
+    };
+
+    handleResize(); // run at start
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -208,7 +224,7 @@ const SignIn = ({ onLogin }) => {
                     onError={handleGoogleError}
                     text="continue_with"
                     size="large"
-                    width="100%" // 👈 make button take parent width
+                    width={width} // 👈 make button take parent width
                   />
                 </div>
               </div>
