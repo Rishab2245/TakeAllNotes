@@ -21,12 +21,13 @@ const SignIn = ({ onLogin }) => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [width, setWidth] = useState(300);
+    const [width, setWidth] = useState(300);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 400) {
-        setWidth(window.innerWidth - 40); // small screen → full width with padding
+      if (window.innerWidth < 500) {
+        setWidth(window.innerWidth - 120); // small screen → full width with padding
+       // small screen → full width with padding
       } else {
         setWidth(350); // default for larger screens
       }
