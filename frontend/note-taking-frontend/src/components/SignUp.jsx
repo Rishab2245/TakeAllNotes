@@ -28,7 +28,8 @@ const SignUp = ({ onLogin }) => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 400) {
-        setWidth(window.innerWidth - 40); // small screen → full width with padding
+        setWidth(window.innerWidth - 120); // small screen → full width with padding
+       // small screen → full width with padding
       } else {
         setWidth(350); // default for larger screens
       }
@@ -282,7 +283,7 @@ const SignUp = ({ onLogin }) => {
               </div>
 
               <div className="w-full flex justify-center">
-                <div className="w-full sm:w-[300px] md:w-[350px]">
+                <div className="w-full sm:w-[300px] md:w-[350px] flex justify-center">
                   <GoogleLogin
                     onSuccess={handleGoogleSuccess}
                     onError={handleGoogleError}
