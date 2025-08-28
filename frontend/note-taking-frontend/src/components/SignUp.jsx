@@ -27,7 +27,7 @@ const SignUp = ({ onLogin }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 400) {
+      if (window.innerWidth < 500) {
         setWidth(window.innerWidth - 120); // small screen → full width with padding
        // small screen → full width with padding
       } else {
