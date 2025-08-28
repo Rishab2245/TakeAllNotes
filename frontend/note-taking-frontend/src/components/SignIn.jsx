@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 import blueWaveBackground from "../assets/auth.jpg";
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -64,14 +65,18 @@ const SignIn = ({ onLogin }) => {
     setErrors({});
 
     try {
-      const response = await axios.post("http://localhost:5001/api/auth/login", formData);
+      const response = await axios.post(
+        `${API_BASE_URL}/api/auth/login`,
+        formData
+      );
 
       // Call onLogin with user data and token
       onLogin(response.data.user, response.data.access_token);
       navigate("/dashboard");
     } catch (error) {
       setErrors({
-        general: error.response?.data?.error || "An error occurred during login",
+        general:
+          error.response?.data?.error || "An error occurred during login",
       });
     } finally {
       setLoading(false);
@@ -82,7 +87,7 @@ const SignIn = ({ onLogin }) => {
     setLoading(true);
     setErrors({});
     try {
-      const response = await axios.post("http://localhost:5001/api/auth/google", {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/google`, {
         token: credentialResponse.credential,
       });
       onLogin(response.data.user, response.data.access_token);
@@ -97,7 +102,9 @@ const SignIn = ({ onLogin }) => {
   };
 
   const handleGoogleError = () => {
-    setErrors({ general: "Google sign-in was unsuccessful. Please try again." });
+    setErrors({
+      general: "Google sign-in was unsuccessful. Please try again.",
+    });
   };
 
   return (
@@ -122,7 +129,10 @@ const SignIn = ({ onLogin }) => {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                  <Label
+                    htmlFor="email"
+                    className="text-sm font-medium text-gray-700"
+                  >
                     Email
                   </Label>
                   <Input
@@ -131,7 +141,9 @@ const SignIn = ({ onLogin }) => {
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className={`h-12 ${errors.email ? "border-red-500" : "border-gray-300"}`}
+                    className={`h-12 ${
+                      errors.email ? "border-red-500" : "border-gray-300"
+                    }`}
                     placeholder="Enter your email"
                   />
                   {errors.email && (
@@ -140,7 +152,10 @@ const SignIn = ({ onLogin }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                  <Label
+                    htmlFor="password"
+                    className="text-sm font-medium text-gray-700"
+                  >
                     Password
                   </Label>
                   <div className="relative">
@@ -150,7 +165,9 @@ const SignIn = ({ onLogin }) => {
                       type={showPassword ? "text" : "password"}
                       value={formData.password}
                       onChange={handleChange}
-                      className={`h-12 pr-10 ${errors.password ? "border-red-500" : "border-gray-300"}`}
+                      className={`h-12 pr-10 ${
+                        errors.password ? "border-red-500" : "border-gray-300"
+                      }`}
                       placeholder="Enter your password"
                     />
                     <button
@@ -185,18 +202,23 @@ const SignIn = ({ onLogin }) => {
               </div>
 
               <div className="w-full flex justify-center">
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={handleGoogleError}
-                  text="continue_with"
-                  size="large"
-                  width="350"
-                />
+                <div className="w-full sm:w-[300px] md:w-[350px]">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    text="continue_with"
+                    size="large"
+                    width="100%" // 👈 make button take parent width
+                  />
+                </div>
               </div>
 
               <p className="text-center text-sm text-gray-600">
                 Don\"t have an account?{" "}
-                <Link to="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
+                <Link
+                  to="/signup"
+                  className="text-blue-600 hover:text-blue-700 font-medium"
+                >
                   Sign up
                 </Link>
               </p>
@@ -204,20 +226,19 @@ const SignIn = ({ onLogin }) => {
           </Card>
         </div>
       </div>
-      
+
       {/* Right side - Background Image */}
       <div className="hidden md:block md:basis-[60%] relative overflow-hidden m-4 rounded-2xl">
         <img
           src={blueWaveBackground}
           alt="Blue wave background"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-ful l h-full object-cover"
         />
-          {/* Black Overlay */}
-  <div className="absolute inset-0 bg-black/20"></div>
+        {/* Black Overlay */}
+        <div className="absolute inset-0 bg-black/20"></div>
       </div>
-      </div>
-  )
-}
+    </div>
+  );
+};
 
-export default SignIn
-
+export default SignIn;

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 import blueWaveBackground from "../assets/auth.jpg";
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -76,7 +77,10 @@ const SignUp = ({ onLogin }) => {
     setErrors({});
 
     try {
-      const response = await axios.post("http://localhost:5001/api/auth/signup", formData);
+      const response = await axios.post(
+        `${API_BASE_URL}/api/auth/signup`,
+        formData
+      );
 
       // Navigate to OTP verification with email
       navigate("/verify-otp", {
@@ -87,7 +91,8 @@ const SignUp = ({ onLogin }) => {
       });
     } catch (error) {
       setErrors({
-        general: error.response?.data?.error || "An error occurred during signup",
+        general:
+          error.response?.data?.error || "An error occurred during signup",
       });
     } finally {
       setLoading(false);
@@ -98,7 +103,7 @@ const SignUp = ({ onLogin }) => {
     setLoading(true);
     setErrors({});
     try {
-      const response = await axios.post("http://localhost:5001/api/auth/google", {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/google`, {
         token: credentialResponse.credential,
       });
       onLogin(response.data.user, response.data.access_token);
@@ -113,7 +118,9 @@ const SignUp = ({ onLogin }) => {
   };
 
   const handleGoogleError = () => {
-    setErrors({ general: "Google sign-up was unsuccessful. Please try again." });
+    setErrors({
+      general: "Google sign-up was unsuccessful. Please try again.",
+    });
   };
 
   return (
@@ -139,7 +146,10 @@ const SignUp = ({ onLogin }) => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
+                    <Label
+                      htmlFor="firstName"
+                      className="text-sm font-medium text-gray-700"
+                    >
                       First Name
                     </Label>
                     <Input
@@ -148,7 +158,9 @@ const SignUp = ({ onLogin }) => {
                       type="text"
                       value={formData.firstName}
                       onChange={handleChange}
-                      className={`h-12 ${errors.firstName ? "border-red-500" : "border-gray-300"}`}
+                      className={`h-12 ${
+                        errors.firstName ? "border-red-500" : "border-gray-300"
+                      }`}
                       placeholder="Enter your first name"
                     />
                     {errors.firstName && (
@@ -157,7 +169,10 @@ const SignUp = ({ onLogin }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
+                    <Label
+                      htmlFor="lastName"
+                      className="text-sm font-medium text-gray-700"
+                    >
                       Last Name
                     </Label>
                     <Input
@@ -166,7 +181,9 @@ const SignUp = ({ onLogin }) => {
                       type="text"
                       value={formData.lastName}
                       onChange={handleChange}
-                      className={`h-12 ${errors.lastName ? "border-red-500" : "border-gray-300"}`}
+                      className={`h-12 ${
+                        errors.lastName ? "border-red-500" : "border-gray-300"
+                      }`}
                       placeholder="Enter your last name"
                     />
                     {errors.lastName && (
@@ -176,7 +193,10 @@ const SignUp = ({ onLogin }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                  <Label
+                    htmlFor="email"
+                    className="text-sm font-medium text-gray-700"
+                  >
                     Email
                   </Label>
                   <Input
@@ -185,7 +205,9 @@ const SignUp = ({ onLogin }) => {
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className={`h-12 ${errors.email ? "border-red-500" : "border-gray-300"}`}
+                    className={`h-12 ${
+                      errors.email ? "border-red-500" : "border-gray-300"
+                    }`}
                     placeholder="Enter your email"
                   />
                   {errors.email && (
@@ -194,7 +216,10 @@ const SignUp = ({ onLogin }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                  <Label
+                    htmlFor="password"
+                    className="text-sm font-medium text-gray-700"
+                  >
                     Password
                   </Label>
                   <div className="relative">
@@ -204,7 +229,9 @@ const SignUp = ({ onLogin }) => {
                       type={showPassword ? "text" : "password"}
                       value={formData.password}
                       onChange={handleChange}
-                      className={`h-12 pr-10 ${errors.password ? "border-red-500" : "border-gray-300"}`}
+                      className={`h-12 pr-10 ${
+                        errors.password ? "border-red-500" : "border-gray-300"
+                      }`}
                       placeholder="Enter your password"
                     />
                     <button
@@ -239,18 +266,23 @@ const SignUp = ({ onLogin }) => {
               </div>
 
               <div className="w-full flex justify-center">
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={handleGoogleError}
-                  text="continue_with"
-                  size="large"
-                  width="350"
-                />
+                <div className="w-full sm:w-[300px] md:w-[350px]">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    text="continue_with"
+                    size="large"
+                    width="100%" // 👈 make button take parent width
+                  />
+                </div>
               </div>
 
               <p className="text-center text-sm text-gray-600">
                 Already have an account?{" "}
-                <Link to="/signin" className="text-blue-600 hover:text-blue-700 font-medium">
+                <Link
+                  to="/signin"
+                  className="text-blue-600 hover:text-blue-700 font-medium"
+                >
                   Sign in
                 </Link>
               </p>
@@ -258,7 +290,7 @@ const SignUp = ({ onLogin }) => {
           </Card>
         </div>
       </div>
-      
+
       {/* Right side - Background Image */}
       <div className="hidden md:block md:basis-[60%] relative overflow-hidden m-4 rounded-2xl">
         <img
@@ -267,11 +299,10 @@ const SignUp = ({ onLogin }) => {
           className="absolute inset-0 w-full h-full object-cover"
         />
         {/* Black Overlay */}
-  <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-black/20"></div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUp
-
+export default SignUp;
