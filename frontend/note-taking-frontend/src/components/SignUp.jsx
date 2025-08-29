@@ -171,6 +171,7 @@ const SignUp = ({ onLogin }) => {
             <CardHeader className="text-center pb-6">
               <div className="flex justify-center mb-4 w-full">
                 <img src={icon} alt="App Icon" className="h-12 w-auto" />
+                
               </div>
 
               <CardTitle className="text-4xl text-gray-900 font-bold">

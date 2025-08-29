@@ -144,14 +144,10 @@ const Dashboard = ({ user, onLogout }) => {
           <div className="flex justify-between items-center h-16">
             <div className='flex items-center'>
               <img src="/icon.png" alt="Logo" className="h-8 w-8 mr-2"/>
+              <span className="text-xl font-bold text-gray-900">Dashboard</span>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <User className="h-5 w-5 text-gray-500" />
-                <span className="text-sm text-gray-700">
-                  {user.firstName} {user.lastName}
-                </span>
-              </div>
+              
               
               <Button
                 variant="outline"
