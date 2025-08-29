@@ -8,6 +8,7 @@ import { Label } from "./ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
 import blueWaveBackground from "../assets/auth.jpg";
+import icon from "../assets/icon.png";
 
 const OTPVerification = ({ onLogin }) => {
   const [otp, setOtp] = useState("");
@@ -107,6 +108,9 @@ const OTPVerification = ({ onLogin }) => {
         <div className="w-full max-w-md">
           <Card className="border-0 shadow-none">
             <CardHeader className="text-center pb-6">
+              <div className="flex justify-center mb-4 w-full">
+                              <img src={icon} alt="App Icon" className="h-12 w-auto" />
+                            </div>
               <CardTitle className="text-2xl font-semibold text-gray-900">
                 Verify Your Email
               </CardTitle>

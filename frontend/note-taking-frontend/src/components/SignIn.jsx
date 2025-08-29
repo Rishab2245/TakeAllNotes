@@ -11,6 +11,7 @@ import { API_BASE_URL } from "../config";
 import blueWaveBackground from "../assets/auth.jpg";
 import { GoogleLogin } from "@react-oauth/google";
 import { useEffect } from "react";
+import icon from "../assets/icon.png";
 
 const SignIn = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -131,6 +132,9 @@ const SignIn = ({ onLogin }) => {
         <div className="w-full max-w-md">
           <Card className="border-0 shadow-none">
             <CardHeader className="text-center pb-6">
+              <div className="flex justify-center mb-4 w-full">
+                              <img src={icon} alt="App Icon" className="h-12 w-auto" />
+                            </div>
               <CardTitle className="text-4xl text-gray-900 font-bold">
                 Sign in
               </CardTitle>
