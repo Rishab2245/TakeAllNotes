@@ -142,10 +142,9 @@ const Dashboard = ({ user, onLogout }) => {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <h1 className="text-xl font-semibold text-gray-900">
-              Take All Notes
-            </h1>
-            
+            <div className='flex items-center'>
+              <img src="/icon.png" alt="Logo" className="h-8 w-8 mr-2"/>
+            </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <User className="h-5 w-5 text-gray-500" />

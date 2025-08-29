@@ -22,6 +22,24 @@ const userSchema = new mongoose.Schema({
     trim: true,
     match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
   },
+  dateOfBirth: {
+    type: Date,
+    required: function() {
+      return this.provider === 'email';
+    },
+    validate: {
+      validator: function(value) {
+        // Skip validation if date is not provided (for Google auth)
+        if (!value && this.provider === 'google') return true;
+        
+        // Check if user is at least 13 years old
+        const thirteenYearsAgo = new Date();
+        thirteenYearsAgo.setFullYear(thirteenYearsAgo.getFullYear() - 13);
+        return value <= thirteenYearsAgo;
+      },
+      message: 'You must be at least 13 years old to register'
+    }
+  },
   password: {
     type: String,
     required: function() {

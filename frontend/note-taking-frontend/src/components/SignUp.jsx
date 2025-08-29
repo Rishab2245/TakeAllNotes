@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
@@ -18,18 +18,19 @@ const SignUp = ({ onLogin }) => {
     lastName: "",
     email: "",
     password: "",
+    dateOfBirth: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-    const [width, setWidth] = useState(300);
+  const [width, setWidth] = useState(300);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 500) {
         setWidth(window.innerWidth - 120); // small screen → full width with padding
-       // small screen → full width with padding
+        // small screen → full width with padding
       } else {
         setWidth(350); // default for larger screens
       }
@@ -76,6 +77,26 @@ const SignUp = ({ onLogin }) => {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (!formData.dateOfBirth) {
+      newErrors.dateOfBirth = "Date of birth is required";
+    } else {
+      const birthDate = new Date(formData.dateOfBirth);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      ) {
+        age--;
+      }
+
+      if (age < 13) {
+        newErrors.dateOfBirth = "You must be at least 13 years old to register";
+      }
     }
 
     return newErrors;
@@ -147,9 +168,12 @@ const SignUp = ({ onLogin }) => {
         <div className="w-full max-w-md">
           <Card className="border-0 shadow-none">
             <CardHeader className="text-center pb-6">
-              <CardTitle className="text-2xl font-semibold text-gray-900">
+              <CardTitle className="text-4xl text-gray-900 font-bold">
                 Sign up
               </CardTitle>
+              <CardDescription>
+                  Sign up to enjoy the feature of HD
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {errors.general && (
@@ -161,7 +185,7 @@ const SignUp = ({ onLogin }) => {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label
                       htmlFor="firstName"
@@ -207,6 +231,29 @@ const SignUp = ({ onLogin }) => {
                       <p className="text-sm text-red-500">{errors.lastName}</p>
                     )}
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="dateOfBirth"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Date of Birth
+                  </Label>
+                  <Input
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    type="date"
+                    value={formData.dateOfBirth}
+                    onChange={handleChange}
+                    className={`h-12 ${
+                      errors.dateOfBirth ? "border-red-500" : "border-gray-300"
+                    }`}
+                    max={new Date().toISOString().split("T")[0]} // Prevents future dates
+                  />
+                  {errors.dateOfBirth && (
+                    <p className="text-sm text-red-500">{errors.dateOfBirth}</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">

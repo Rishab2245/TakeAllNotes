@@ -16,6 +16,24 @@ const validateSignup = [
   body("lastName").trim().isLength({ min: 1 }).withMessage("Last name is required"),
   body("email").isEmail().normalizeEmail().withMessage("Please enter a valid email"),
   body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long"),
+  body("dateOfBirth")
+    .notEmpty().withMessage("Date of birth is required")
+    .isISO8601().withMessage("Invalid date format")
+    .custom((value) => {
+      const birthDate = new Date(value);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      if (age < 13) {
+        throw new Error("You must be at least 13 years old to register");
+      }
+      return true;
+    }),
 ];
 
 const validateLogin = [
@@ -41,7 +59,7 @@ const signup = async (req, res) => {
       });
     }
 
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, dateOfBirth } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -58,6 +76,7 @@ const signup = async (req, res) => {
       lastName,
       email,
       password,
+      dateOfBirth,
       provider: "email",
     });
 

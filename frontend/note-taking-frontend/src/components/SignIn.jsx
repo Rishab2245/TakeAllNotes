@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle , CardDescription } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
@@ -131,9 +131,12 @@ const SignIn = ({ onLogin }) => {
         <div className="w-full max-w-md">
           <Card className="border-0 shadow-none">
             <CardHeader className="text-center pb-6">
-              <CardTitle className="text-2xl font-semibold text-gray-900">
+              <CardTitle className="text-4xl text-gray-900 font-bold">
                 Sign in
               </CardTitle>
+              <CardDescription>
+                  Please login to continue to your account.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {errors.general && (
