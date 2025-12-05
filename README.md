@@ -230,11 +230,4 @@ The frontend closely replicates the provided Figma design with:
 - CORS configuration for secure cross-origin requests
 - Protected routes requiring authentication
 
-## Development Notes
-
-- The app includes fallback support for MongoDB - it will work even without a MongoDB connection if the `MONGODB_URI` is not correctly set or the database is unavailable.
-- OTP functionality now sends actual emails (requires email service configuration in `.env`).
-- All API routes are protected with JWT authentication.
-- Frontend uses modern React patterns with hooks and functional components.
-
 
